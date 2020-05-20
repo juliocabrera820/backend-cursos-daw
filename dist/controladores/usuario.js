@@ -102,7 +102,7 @@ exports.obtenerUsuario = function (req, res) { return __awaiter(void 0, void 0, 
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).findOne({
                         where: { id: "" + id },
-                        relations: ["tarjetas"],
+                        relations: ["tarjetas", "compras"],
                     })];
             case 2:
                 usuario = _a.sent();

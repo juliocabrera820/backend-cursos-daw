@@ -45,7 +45,7 @@ export const obtenerUsuario = async (
   try {
     const usuario = await getRepository(Usuario).findOne({
       where: { id: `${id}` },
-      relations: ["tarjetas"],
+      relations: ["tarjetas", "compras"],
     });
     return res.json(usuario);
   } catch (error) {
