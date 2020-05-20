@@ -1,0 +1,10 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "12345",
+  "database": "cursosdaw",
+  "entities": ["dist/entidades/**/*.js"],
+  "synchronize": true
+}
