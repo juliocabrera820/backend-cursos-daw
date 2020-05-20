@@ -13,3 +13,23 @@ export const obtenerAdministradores = async (
     return res.json({ message: error });
   }
 };
+
+export const crearAdministrador = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { nombre, correo, contrasena } = req.body;
+    const nuevoAdministrador = getRepository(Administrador).create({
+      nombre,
+      correo,
+      contrasena,
+    });
+    const administrador = await getRepository(Administrador).save(
+      nuevoAdministrador
+    );
+    return res.json(administrador);
+  } catch (error) {
+    return res.json({ message: error });
+  }
+};

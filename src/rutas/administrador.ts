@@ -1,6 +1,12 @@
 import { Router } from "express";
-import { obtenerAdministradores } from "../controladores/administrador";
+import {
+  obtenerAdministradores,
+  crearAdministrador,
+} from "../controladores/administrador";
 const router = Router();
 
-router.route("/administradores").get(obtenerAdministradores);
+router
+  .route("/administradores")
+  .get(obtenerAdministradores)
+  .post(crearAdministrador);
 export default router;
