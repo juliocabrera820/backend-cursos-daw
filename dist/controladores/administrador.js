@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtenerAdministradores = void 0;
+exports.crearAdministrador = exports.obtenerAdministradores = void 0;
 var typeorm_1 = require("typeorm");
 var administrador_1 = require("../entidades/administrador");
 exports.obtenerAdministradores = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -52,6 +52,29 @@ exports.obtenerAdministradores = function (req, res) { return __awaiter(void 0, 
             case 2:
                 error_1 = _a.sent();
                 return [2 /*return*/, res.json({ message: error_1 })];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.crearAdministrador = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, nombre, correo, contrasena, nuevoAdministrador, administrador, error_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, nombre = _a.nombre, correo = _a.correo, contrasena = _a.contrasena;
+                nuevoAdministrador = typeorm_1.getRepository(administrador_1.Administrador).create({
+                    nombre: nombre,
+                    correo: correo,
+                    contrasena: contrasena,
+                });
+                return [4 /*yield*/, typeorm_1.getRepository(administrador_1.Administrador).save(nuevoAdministrador)];
+            case 1:
+                administrador = _b.sent();
+                return [2 /*return*/, res.json(administrador)];
+            case 2:
+                error_2 = _b.sent();
+                return [2 /*return*/, res.json({ message: error_2 })];
             case 3: return [2 /*return*/];
         }
     });
