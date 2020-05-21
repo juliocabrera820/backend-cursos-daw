@@ -9,6 +9,5 @@ router
     .get(usuario_1.obtenerUsuario)
     .put(usuario_1.actualizar)
     .delete(usuario_1.eliminar);
-router.route("/usuarios/:id/tarjetas").post(usuario_1.agregarTarjeta);
 router.route("/usuarios/:id/compras").post(usuario_1.agregarCompra);
 exports.default = router;

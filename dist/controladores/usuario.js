@@ -43,11 +43,10 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.agregarCompra = exports.agregarTarjeta = exports.eliminar = exports.actualizar = exports.obtenerUsuario = exports.crearUsuario = exports.obtenerUsuarios = void 0;
+exports.agregarCompra = exports.eliminar = exports.actualizar = exports.obtenerUsuario = exports.crearUsuario = exports.obtenerUsuarios = void 0;
 var typeorm_1 = require("typeorm");
 var usuario_1 = require("../entidades/usuario");
 var compra_1 = require("../entidades/compra");
-var tarjeta_1 = require("../entidades/tarjeta");
 exports.obtenerUsuarios = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var usuarios, error_1;
     return __generator(this, function (_a) {
@@ -55,7 +54,7 @@ exports.obtenerUsuarios = function (req, res) { return __awaiter(void 0, void 0,
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).find({
-                        relations: ["compras", "tarjetas"],
+                        relations: ["compras"],
                     })];
             case 1:
                 usuarios = _a.sent();
@@ -68,17 +67,20 @@ exports.obtenerUsuarios = function (req, res) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.crearUsuario = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, nombre, apellido, correo, contrasena, nuevoUsuario, usuario, error_2;
+    var _a, nombre, apellido, correo, contrasena, numero, fecha, cvc, nuevoUsuario, usuario, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, nombre = _a.nombre, apellido = _a.apellido, correo = _a.correo, contrasena = _a.contrasena;
+                _a = req.body, nombre = _a.nombre, apellido = _a.apellido, correo = _a.correo, contrasena = _a.contrasena, numero = _a.numero, fecha = _a.fecha, cvc = _a.cvc;
                 nuevoUsuario = typeorm_1.getRepository(usuario_1.Usuario).create({
                     nombre: nombre,
                     apellido: apellido,
                     correo: correo,
                     contrasena: contrasena,
+                    fecha: fecha,
+                    numero: numero,
+                    cvc: cvc,
                 });
                 return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).save(nuevoUsuario)];
             case 1:
@@ -102,7 +104,7 @@ exports.obtenerUsuario = function (req, res) { return __awaiter(void 0, void 0, 
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).findOne({
                         where: { id: "" + id },
-                        relations: ["tarjetas", "compras"],
+                        relations: ["compras"],
                     })];
             case 2:
                 usuario = _a.sent();
@@ -115,7 +117,7 @@ exports.obtenerUsuario = function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); };
 exports.actualizar = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, _a, nombre, apellido, correo, contrasena, numero, fecha, cvc, usuario, tarjeta, usuarioActualizado, error_4;
+    var id, _a, nombre, apellido, correo, contrasena, numero, fecha, cvc, usuario, usuarioActualizado, error_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -124,25 +126,22 @@ exports.actualizar = function (req, res) { return __awaiter(void 0, void 0, void
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 5, , 6]);
-                return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).findOne({
-                        where: { id: "" + id },
-                        relations: ["tarjetas"],
-                    })];
+                return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).findOne(id)];
             case 2:
                 usuario = _b.sent();
-                tarjeta = usuario.tarjetas;
                 if (!usuario) return [3 /*break*/, 4];
                 typeorm_1.getRepository(usuario_1.Usuario).merge(usuario, {
                     nombre: nombre,
                     apellido: apellido,
                     correo: correo,
                     contrasena: contrasena,
+                    numero: numero,
+                    fecha: fecha,
+                    cvc: cvc,
                 });
                 return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).save(usuario)];
             case 3:
                 usuarioActualizado = _b.sent();
-                typeorm_1.getRepository(tarjeta_1.Tarjeta).merge(tarjeta[0], { numero: numero, fecha: fecha, cvc: cvc });
-                typeorm_1.getRepository(tarjeta_1.Tarjeta).save(tarjeta);
                 return [2 /*return*/, res.json(usuarioActualizado)];
             case 4: return [2 /*return*/, res.json({ message: "El usuario no existe" })];
             case 5:
@@ -170,40 +169,8 @@ exports.eliminar = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
-exports.agregarTarjeta = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, _a, numero, fecha, cvc, usuario, tarjeta, error_6;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                id = req.params.id;
-                _a = req.body, numero = _a.numero, fecha = _a.fecha, cvc = _a.cvc;
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 4, , 5]);
-                return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).findOne(id)];
-            case 2:
-                usuario = _b.sent();
-                tarjeta = typeorm_1.getRepository(tarjeta_1.Tarjeta).create({
-                    numero: numero,
-                    fecha: fecha,
-                    cvc: cvc,
-                });
-                tarjeta.usuario = usuario;
-                typeorm_1.getRepository(tarjeta_1.Tarjeta).save(tarjeta);
-                usuario.tarjetas = __spreadArrays(usuario.tarjetas, [tarjeta]);
-                return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).save(usuario)];
-            case 3:
-                _b.sent();
-                return [2 /*return*/, res.json(usuario)];
-            case 4:
-                error_6 = _b.sent();
-                return [2 /*return*/, res.json({ message: error_6 })];
-            case 5: return [2 /*return*/];
-        }
-    });
-}); };
 exports.agregarCompra = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, _a, nombre, descripcion, topico, duracion, lecciones, precio, usuario, compra, error_7;
+    var id, _a, nombre, descripcion, topico, duracion, lecciones, precio, usuario, compra, error_6;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -231,8 +198,8 @@ exports.agregarCompra = function (req, res) { return __awaiter(void 0, void 0, v
                 _b.sent();
                 return [2 /*return*/, res.json(usuario)];
             case 4:
-                error_7 = _b.sent();
-                return [2 /*return*/, res.json({ message: error_7 })];
+                error_6 = _b.sent();
+                return [2 /*return*/, res.json({ message: error_6 })];
             case 5: return [2 /*return*/];
         }
     });
