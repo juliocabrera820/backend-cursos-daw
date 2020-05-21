@@ -24,6 +24,8 @@ export class Compra {
   @Column()
   precio: number;
 
-  @ManyToOne((type) => Usuario, (usuario) => usuario.compras)
+  @ManyToOne((type) => Usuario, (usuario) => usuario.compras, {
+    onDelete: "CASCADE",
+  })
   usuario: Usuario;
 }

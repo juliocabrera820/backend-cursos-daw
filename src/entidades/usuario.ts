@@ -27,6 +27,8 @@ export class Usuario {
   @Column()
   cvc: number;
 
-  @OneToMany((type) => Compra, (compra) => compra.usuario)
+  @OneToMany((type) => Compra, (compra) => compra.usuario, {
+    cascade: true,
+  })
   compras: Compra[];
 }
