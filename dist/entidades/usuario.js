@@ -48,7 +48,9 @@ var Usuario = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Usuario.prototype, "cvc", void 0);
     __decorate([
-        typeorm_1.OneToMany(function (type) { return compra_1.Compra; }, function (compra) { return compra.usuario; }),
+        typeorm_1.OneToMany(function (type) { return compra_1.Compra; }, function (compra) { return compra.usuario; }, {
+            cascade: true,
+        }),
         __metadata("design:type", Array)
     ], Usuario.prototype, "compras", void 0);
     Usuario = __decorate([

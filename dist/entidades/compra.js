@@ -44,7 +44,9 @@ var Compra = /** @class */ (function () {
         __metadata("design:type", Number)
     ], Compra.prototype, "precio", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function (type) { return usuario_1.Usuario; }, function (usuario) { return usuario.compras; }),
+        typeorm_1.ManyToOne(function (type) { return usuario_1.Usuario; }, function (usuario) { return usuario.compras; }, {
+            onDelete: "CASCADE",
+        }),
         __metadata("design:type", usuario_1.Usuario)
     ], Compra.prototype, "usuario", void 0);
     Compra = __decorate([
