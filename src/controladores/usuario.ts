@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Usuario } from "../entidades/usuario";
 import { Compra } from "../entidades/compra";
-import { Tarjeta } from "../entidades/tarjeta";
 
 export const obtenerUsuarios = async (
   req: Request,
@@ -10,7 +9,7 @@ export const obtenerUsuarios = async (
 ): Promise<Response> => {
   try {
     const usuarios = await getRepository(Usuario).find({
-      relations: ["compras", "tarjetas"],
+      relations: ["compras"],
     });
     return res.json(usuarios);
   } catch (error) {
@@ -23,12 +22,23 @@ export const crearUsuario = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const { nombre, apellido, correo, contrasena } = req.body;
+    const {
+      nombre,
+      apellido,
+      correo,
+      contrasena,
+      numero,
+      fecha,
+      cvc,
+    } = req.body;
     const nuevoUsuario = getRepository(Usuario).create({
       nombre,
       apellido,
       correo,
       contrasena,
+      fecha,
+      numero,
+      cvc,
     });
     const usuario = await getRepository(Usuario).save(nuevoUsuario);
     return res.json(usuario);
@@ -45,7 +55,7 @@ export const obtenerUsuario = async (
   try {
     const usuario = await getRepository(Usuario).findOne({
       where: { id: `${id}` },
-      relations: ["tarjetas", "compras"],
+      relations: ["compras"],
     });
     return res.json(usuario);
   } catch (error) {
@@ -60,21 +70,18 @@ export const actualizar = async (
   const { id } = req.params;
   const { nombre, apellido, correo, contrasena, numero, fecha, cvc } = req.body;
   try {
-    const usuario = await getRepository(Usuario).findOne({
-      where: { id: `${id}` },
-      relations: ["tarjetas"],
-    });
-    const tarjeta = usuario.tarjetas;
+    const usuario = await getRepository(Usuario).findOne(id);
     if (usuario) {
       getRepository(Usuario).merge(usuario, {
         nombre,
         apellido,
         correo,
         contrasena,
+        numero,
+        fecha,
+        cvc,
       });
       const usuarioActualizado = await getRepository(Usuario).save(usuario);
-      getRepository(Tarjeta).merge(tarjeta[0], { numero, fecha, cvc });
-      getRepository(Tarjeta).save(tarjeta);
       return res.json(usuarioActualizado);
     }
     return res.json({ message: "El usuario no existe" });
@@ -91,29 +98,6 @@ export const eliminar = async (
     const { id } = req.params;
     const eliminado = await getRepository(Usuario).delete(id);
     return res.json(eliminado);
-  } catch (error) {
-    return res.json({ message: error });
-  }
-};
-
-export const agregarTarjeta = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { id } = req.params;
-  const { numero, fecha, cvc } = req.body;
-  try {
-    const usuario = await getRepository(Usuario).findOne(id);
-    const tarjeta = getRepository(Tarjeta).create({
-      numero,
-      fecha,
-      cvc,
-    });
-    tarjeta.usuario = usuario;
-    getRepository(Tarjeta).save(tarjeta);
-    usuario.tarjetas = [...usuario.tarjetas, tarjeta];
-    await getRepository(Usuario).save(usuario);
-    return res.json(usuario);
   } catch (error) {
     return res.json({ message: error });
   }

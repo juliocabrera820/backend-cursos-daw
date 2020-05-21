@@ -8,7 +8,6 @@ var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
 var typeorm_1 = require("typeorm");
 var usuario_1 = __importDefault(require("./rutas/usuario"));
-var tarjeta_1 = __importDefault(require("./rutas/tarjeta"));
 var curso_1 = __importDefault(require("./rutas/curso"));
 var administrador_1 = __importDefault(require("./rutas/administrador"));
 var compra_1 = __importDefault(require("./rutas/compra"));
@@ -21,7 +20,6 @@ app.listen(app.get("port"), function () {
     console.log("Escuchando en el puerto " + app.get("port"));
 });
 app.use(usuario_1.default);
-app.use(tarjeta_1.default);
 app.use(curso_1.default);
 app.use(administrador_1.default);
 app.use(compra_1.default);

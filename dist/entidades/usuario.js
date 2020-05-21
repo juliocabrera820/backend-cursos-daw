@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 var typeorm_1 = require("typeorm");
-var tarjeta_1 = require("./tarjeta");
 var compra_1 = require("./compra");
 var Usuario = /** @class */ (function () {
     function Usuario() {
@@ -37,9 +36,17 @@ var Usuario = /** @class */ (function () {
         __metadata("design:type", String)
     ], Usuario.prototype, "contrasena", void 0);
     __decorate([
-        typeorm_1.OneToMany(function (type) { return tarjeta_1.Tarjeta; }, function (tarjeta) { return tarjeta.usuario; }),
-        __metadata("design:type", Array)
-    ], Usuario.prototype, "tarjetas", void 0);
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Usuario.prototype, "numero", void 0);
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Usuario.prototype, "fecha", void 0);
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], Usuario.prototype, "cvc", void 0);
     __decorate([
         typeorm_1.OneToMany(function (type) { return compra_1.Compra; }, function (compra) { return compra.usuario; }),
         __metadata("design:type", Array)

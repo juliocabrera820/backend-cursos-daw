@@ -5,7 +5,6 @@ import {
   obtenerUsuario,
   actualizar,
   eliminar,
-  agregarTarjeta,
   agregarCompra,
 } from "../controladores/usuario";
 
@@ -17,7 +16,6 @@ router
   .get(obtenerUsuario)
   .put(actualizar)
   .delete(eliminar);
-router.route("/usuarios/:id/tarjetas").post(agregarTarjeta);
 router.route("/usuarios/:id/compras").post(agregarCompra);
 
 export default router;

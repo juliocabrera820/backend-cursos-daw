@@ -1,5 +1,4 @@
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from "typeorm";
-import { Tarjeta } from "./tarjeta";
 import { Compra } from "./compra";
 
 @Entity()
@@ -19,8 +18,15 @@ export class Usuario {
   @Column()
   contrasena: string;
 
-  @OneToMany((type) => Tarjeta, (tarjeta) => tarjeta.usuario)
-  tarjetas: Tarjeta[];
+  @Column()
+  numero: string;
+
+  @Column()
+  fecha: string;
+
+  @Column()
+  cvc: number;
+
   @OneToMany((type) => Compra, (compra) => compra.usuario)
   compras: Compra[];
 }
