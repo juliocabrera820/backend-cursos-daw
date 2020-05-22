@@ -10,4 +10,5 @@ router
     .put(usuario_1.actualizar)
     .delete(usuario_1.eliminar);
 router.route("/usuarios/:id/compras").post(usuario_1.agregarCompra);
+router.route("/usuarios/sesion/:correo").get(usuario_1.buscarPorCorreo);
 exports.default = router;

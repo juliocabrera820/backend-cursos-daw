@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.crearAdministrador = exports.obtenerAdministradores = void 0;
+exports.buscarPorCorreo = exports.crearAdministrador = exports.obtenerAdministradores = void 0;
 var typeorm_1 = require("typeorm");
 var administrador_1 = require("../entidades/administrador");
 exports.obtenerAdministradores = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -76,6 +76,32 @@ exports.crearAdministrador = function (req, res) { return __awaiter(void 0, void
                 error_2 = _b.sent();
                 return [2 /*return*/, res.json({ message: error_2 })];
             case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.buscarPorCorreo = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var correo, administrador, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                correo = req.params.correo;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, typeorm_1.getRepository(administrador_1.Administrador).findOne({
+                        where: { correo: "" + correo },
+                    })];
+            case 2:
+                administrador = _a.sent();
+                if (administrador) {
+                    return [2 /*return*/, res.status(200).json(administrador)];
+                }
+                return [2 /*return*/, res.status(400).json({ message: "No se encontro el administrador" })];
+            case 3:
+                error_3 = _a.sent();
+                res.json({ message: error_3 });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
