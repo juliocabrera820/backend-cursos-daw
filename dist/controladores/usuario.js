@@ -43,7 +43,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.agregarCompra = exports.eliminar = exports.actualizar = exports.obtenerUsuario = exports.crearUsuario = exports.obtenerUsuarios = void 0;
+exports.buscarPorCorreo = exports.agregarCompra = exports.eliminar = exports.actualizar = exports.obtenerUsuario = exports.crearUsuario = exports.obtenerUsuarios = void 0;
 var typeorm_1 = require("typeorm");
 var usuario_1 = require("../entidades/usuario");
 var compra_1 = require("../entidades/compra");
@@ -201,6 +201,33 @@ exports.agregarCompra = function (req, res) { return __awaiter(void 0, void 0, v
                 error_6 = _b.sent();
                 return [2 /*return*/, res.json({ message: error_6 })];
             case 5: return [2 /*return*/];
+        }
+    });
+}); };
+exports.buscarPorCorreo = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var correo, usuario, error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                correo = req.params.correo;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, typeorm_1.getRepository(usuario_1.Usuario).findOne({
+                        where: { correo: "" + correo },
+                        relations: ["compras"],
+                    })];
+            case 2:
+                usuario = _a.sent();
+                if (usuario) {
+                    return [2 /*return*/, res.status(200).json(usuario)];
+                }
+                return [2 /*return*/, res.status(400).json({ message: "No se encontro el usuario" })];
+            case 3:
+                error_7 = _a.sent();
+                res.json({ message: error_7 });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

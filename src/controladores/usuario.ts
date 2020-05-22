@@ -128,3 +128,22 @@ export const agregarCompra = async (
     return res.json({ message: error });
   }
 };
+
+export const buscarPorCorreo = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { correo } = req.params;
+  try {
+    const usuario = await getRepository(Usuario).findOne({
+      where: { correo: `${correo}` },
+      relations: ["compras"],
+    });
+    if (usuario) {
+      return res.status(200).json(usuario);
+    }
+    return res.status(400).json({ message: "No se encontro el usuario" });
+  } catch (error) {
+    res.json({ message: error });
+  }
+};

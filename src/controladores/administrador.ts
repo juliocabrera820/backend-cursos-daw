@@ -33,3 +33,21 @@ export const crearAdministrador = async (
     return res.json({ message: error });
   }
 };
+
+export const buscarPorCorreo = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { correo } = req.params;
+  try {
+    const administrador = await getRepository(Administrador).findOne({
+      where: { correo: `${correo}` },
+    });
+    if (administrador) {
+      return res.status(200).json(administrador);
+    }
+    return res.status(400).json({ message: "No se encontro el administrador" });
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
